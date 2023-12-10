@@ -17,7 +17,7 @@ MEM_DETAILS=$(free -m)
 MEM_USAGE=$(awk '/Mem:/ {print (1 - $7/$2) * 100.0}' <<< "$MEM_DETAILS")
 
 # Get the most memory-consuming process details
-HIGH_MEM_PROC=$(ps -eo pid,comm,%mem --sort=-%mem | grep -v "MEM" | head -n 2 | tail -n 1)
+HIGH_MEM_PROC=$(ps -eo pid,comm,%mem --sort=-%mem | awk 'NR==2')
 HIGH_MEM_PID=$(awk '{print $1}' <<< "$HIGH_MEM_PROC")
 HIGH_MEM_NAME=$(awk '{print $2}' <<< "$HIGH_MEM_PROC")
 HIGH_MEM_PERCENTAGE=$(awk '{print $3}' <<< "$HIGH_MEM_PROC")
